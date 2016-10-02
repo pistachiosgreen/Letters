@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+
+  <title>Jessica Guo | Lob</title>
+
+  <style>
+        body {
+      font-family: "Helvetica";
+      font-weight: 200;
+      text-align: center;
+    }
+
+    #wrapper {
+      width: 1000px;
+      margin: 0px auto;
+    }
+     
+     #name { 
+        width: 600px;
+        margin: 0px auto;
+        text-align: center;
+        padding-top: 20px;
+        margin: 0px auto;
+
+      }
+
+      h1 {
+        font-family: "Century Gothic";
+        font-weight: 300;
+        font-size: 50px;
+      }
+
+      h2 {
+        font-family: "Garamond";
+        font-weight: 100;
+       
+      }
+.last {
+        font-weight:100;
+      }
+
+    .project {
+      border: 2px solid black;
+      height: 600px;
+      width: 400px;
+      margin: 0px auto;
+      padding: 5px;
+      padding-top: 15px;
+      text-align: center;
+      float: center;
+    }
+
+    #break {
+      display: block;
+    }
+
+  </style>
+</head>
+
+<body>
+  
+  <div id = "wrapper">
+    <div class = "project">
+      <h1> Job Application Form </h1>
+<div>
+<!--<form class="inset" action="/~cs304/php/form-echo-html.php" method="get">-->
+<!--AIzaSyCoAlF87FU718mULP282grh24zAAz1p5no-->
+<!--test_80265f968ce6b9f7ab794015d8f575002cb-->
+  <!-- modern browsers will insist that "required" elemements are non-empty -->
+  <p>Name <input required type="text" name="name"> </p>
+     <p>Address Line 1<input id="address1" required type="text" name="address"> </p>
+   
+    <p>Address Line 2 <input id="address2" required type="text" name="address2"> </p>
+     <p>City <input id="city" required type="text" name="city"> </p>
+     <p>State <input id="state"  required type="text" name="state"> </p>
+   
+     <p> Zip code <input id="zipcode" required type="number" name="zipcode"> </p>
+   
+     <p>Message letter <br><textarea name="letter" rows="5" cols="30"></textarea>
+    
+     <p><button id="button1"> hey there </button>
+</div>
+      
+    </div>
+  </div>
+
+
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+
+ $(document).ready(function() {
+    $('#button1').on('click', function() {
+      console.log("hi");
+       //var addressline1 = $('#address1').val();
+      var addressline2 = $('#address2').val();
+       var city = $('#city').val();
+       var state = $('#state').val();
+           var zipcode = $('#zipcode').val();
+          // var address = addressline1 + " " + addressline2 + " " + city + "," + state + " " + zipcode; 
+           var address =  addressline2 + " " + city + "," + state + " " + zipcode; 
+           callCivic(address);
+    });
+    
+    
+
+ function callCivic(a){
+  console.log(a);
+
+$.ajax({
+  url: "https://www.googleapis.com/civicinfo/v2/representatives",
+  type: "get", //send it through get method
+  data:
+    {
+      address: a,
+      roles: "legislatorLowerBody",
+      key: 'AIzaSyCoAlF87FU718mULP282grh24zAAz1p5no'
+    },
+  success: function(response) {
+    console.log(response);
+    var official = response.officials[0];
+    var name = official.name;
+    var address = official.address[0];
+    var city= address.city;
+    var correctcity = city.substring(0,1).toUpperCase() + city.substring(1,city.length);
+    var line1=address.line1;
+    var state=address.state;
+    var zip=address.zip;
+    var fulladdress = line1 + " " + correctcity + ", " + state + " " + zip;
+//.toUpperCase
+        console.log(fulladdress);
+    //Do Something
+  },
+  error: function(xhr) {
+    alert('yo');
+    //Do Something to handle error
+  }
+
+});
+
+}
+
+function callLob(){
+var Lob = require('lob')('test_80265f968ce6b9f7ab794015d8f575002cb');
+$.ajax({
+  url: "https://api.lob.com/v1/addresses",
+  type: "get", //send it through get method
+  data:
+    {
+      address: a,
+      roles: "legislatorLowerBody",
+      key: 'AIzaSyCoAlF87FU718mULP282grh24zAAz1p5no'
+    },
+  success: function(response) {
+  
+        console.log(fulladdress);
+    //Do Something
+  },
+  error: function(xhr) {
+    alert('yo');
+    //Do Something to handle error
+  }
+
+});
+}
+});
+ </script>
+</html>
